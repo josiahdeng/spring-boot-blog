@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lucian.blog.front.mapper.ArticleMapper">
+    <select id="getArticles" resultType="com.lucian.blog.entity.Article">
+    </select>
+
+    <select id="getPageInfo" resultType="com.lucian.blog.entity.PageInfo">
+        select count(*) as total from lucian_blog.articles
+        <include refid="where_condition"></include>
+    </select>
+
+    <sql id="where_condition">
+        <where>
+            lucian_blog.articles.hidden = 0
+            AND
+            lucian_blog.articles.deleted_at IS NULL
+            <if test="menuId != null">
+               AND lucian_blog.articles.menu_id = #{menuId}
+            </if>
+            <if test="categoryId != null">
+               AND lucian_blog.articles.category_id = #{categoryId}
+            </if>
+
+        </where>
+    </sql>
+</mapper>
